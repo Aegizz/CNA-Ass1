@@ -118,6 +118,9 @@ while True:
     # ProxyServer finds a cache hit
     # Send back response to client 
     # ~~~~ INSERT CODE ~~~~
+    if ("Cache-Control: no-cache" in message) or ("Pragma: no-cache" in message):
+      raise Exception("Client requested fresh content; force revalidation.")
+    clientSocket.sendall("".join(cacheData).encode())
     # ~~~~ END CODE INSERT ~~~~
     cacheFile.close()
     print ('Sent to the client:')
